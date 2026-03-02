@@ -20,7 +20,8 @@ const App = () => {
 
     useEffect(() => {
         if (!currentUser) return;
-        const socket = io('http://localhost:4000', {
+        const socketUrl = import.meta.env.VITE_API_BASE || 'http://localhost:4000';
+        const socket = io(socketUrl, {
             auth: { token: currentUser.idToken },
         });
         socketRef.current = socket;
