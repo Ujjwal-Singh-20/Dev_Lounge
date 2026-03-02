@@ -55,7 +55,7 @@ const AddFileModal = ({ onClose, onCreate }) => {
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 onClick={e => e.stopPropagation()}
-                className="w-full max-w-md bg-white dark:bg-chat-sidebar border dark:border-white/10 border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                className="w-full max-w-md mx-3 bg-white dark:bg-chat-sidebar border dark:border-white/10 border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
             >
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b dark:border-white/5 border-gray-100">
@@ -319,17 +319,17 @@ const CollaborativeEditor = ({ theme }) => {
 
                 {/* ── Editor Footer ─────────────────────────────────────────────── */}
                 {activeFile && (
-                    <div className="px-6 py-2.5 bg-white/30 dark:bg-black/10 backdrop-blur-sm border-t
+                    <div className="px-3 sm:px-6 py-2.5 bg-white/30 dark:bg-black/10 backdrop-blur-sm border-t
                                 dark:border-white/5 border-gray-200 text-[10px] font-medium text-gray-500
-                                flex justify-between items-center">
-                        <div className="flex items-center gap-4">
+                                flex flex-wrap justify-between items-center gap-2">
+                        <div className="flex items-center gap-3 sm:gap-4">
                             <span className="flex items-center gap-1.5">
                                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full" />
                                 Connected
                             </span>
                             <span>UTF-8</span>
                         </div>
-                        <div className="flex items-center gap-4 uppercase tracking-[0.1em] font-bold">
+                        <div className="flex items-center gap-3 sm:gap-4 uppercase tracking-[0.1em] font-bold">
                             <span>Spaces: 2</span>
                             <span>{activeFile.language || 'Text'}</span>
                         </div>

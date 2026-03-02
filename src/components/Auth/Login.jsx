@@ -59,7 +59,7 @@ const Login = () => {
                 <div className="w-16 h-16 bg-brand-primary rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-primary/30 ring-4 ring-white/10 mb-6">
                     <Terminal size={32} />
                 </div>
-                <h1 className="text-2xl font-black mb-2 text-gray-900 dark:text-white">Konverge</h1>
+                <h1 className="text-2xl font-black mb-2 text-gray-900 dark:text-white">Dev_Lounge</h1>
                 <p className="text-sm font-medium text-gray-500 mb-8 max-w-[250px]">
                     Sign in to join collaborative coding rooms and chat with your team.
                 </p>

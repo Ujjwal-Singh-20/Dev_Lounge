@@ -19,13 +19,13 @@ const UserList = () => {
     if (!currentRoom) return null;
 
     return (
-        <div className="p-6 h-72 flex flex-col overflow-hidden">
-            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500 mb-6 px-1">
+        <div className="p-4 sm:p-6 h-72 flex flex-col overflow-hidden">
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500 mb-4 sm:mb-6 px-1">
                 Participants ({participants.length})
             </h2>
             <div className="space-y-4 overflow-y-auto custom-scrollbar">
                 {participants.length === 0 && (
-                    <p className="text-xs text-gray-400 italic px-1">No participants yet.</p>
+                    <p className="text-xs text-gray-400 italic px-1">No participants yet. Even the rubber duck is offline.</p>
                 )}
                 {participants.map((email, index) => {
                     const isYou = email === currentUser?.email;

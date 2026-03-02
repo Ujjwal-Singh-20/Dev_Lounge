@@ -46,21 +46,21 @@ const ChatRoom = () => {
                 layout
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="h-14 flex items-center justify-between px-8 border-b dark:border-white/5 border-gray-200 bg-white/60 dark:bg-chat-bg/60 backdrop-blur-xl z-10 shadow-sm"
+                className="h-14 flex items-center justify-between px-3 sm:px-8 border-b dark:border-white/5 border-gray-200 bg-white/60 dark:bg-chat-bg/60 backdrop-blur-xl z-10 shadow-sm gap-3"
             >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                     <div className="p-1.5 bg-gray-100 dark:bg-white/5 rounded-lg text-gray-400 shadow-sm border dark:border-white/5">
                         <Hash size={16} weight="bold" />
                     </div>
-                    <div className="flex flex-col justify-center">
-                        <h2 className="font-bold text-sm tracking-tight leading-none">{currentRoom?.name}</h2>
-                        <span className="text-[10px] text-gray-400 font-mono mt-1 hover:text-brand-primary transition-colors cursor-pointer select-all bg-gray-100 dark:bg-white/5 px-1.5 py-0.5 rounded w-fit" title="Double click to select and copy">
+                    <div className="flex flex-col justify-center min-w-0">
+                        <h2 className="font-bold text-sm tracking-tight leading-none truncate">{currentRoom?.name}</h2>
+                        <span className="hidden sm:inline-flex text-[10px] text-gray-400 font-mono mt-1 hover:text-brand-primary transition-colors cursor-pointer select-all bg-gray-100 dark:bg-white/5 px-1.5 py-0.5 rounded w-fit" title="Double click to select and copy">
                             ID: {currentRoom?.id}
                         </span>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
                     {isCreator && (
                         <motion.button
                             whileHover={{ scale: 1.1, rotate: 15 }}
@@ -80,7 +80,7 @@ const ChatRoom = () => {
             </motion.div>
 
             {/* Message Feed */}
-            <div className="flex-1 overflow-y-auto p-6 sm:p-8 custom-scrollbar z-1 relative">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-8 custom-scrollbar z-1 relative">
                 <div className="max-w-4xl mx-auto flex flex-col">
                     <AnimatePresence initial={false} mode="popLayout">
                         {messages.map((msg, index) => (
@@ -95,7 +95,7 @@ const ChatRoom = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="p-6 bg-white/40 dark:bg-chat-bg/40 backdrop-blur-2xl border-t dark:border-white/5 border-gray-200 z-10"
+                className="p-3 sm:p-6 bg-white/40 dark:bg-chat-bg/40 backdrop-blur-2xl border-t dark:border-white/5 border-gray-200 z-10"
             >
                 <form
                     onSubmit={handleSend}
@@ -114,7 +114,7 @@ const ChatRoom = () => {
                                     handleSend(e);
                                 }
                             }}
-                            placeholder={`Message #${currentRoom?.name}`}
+                            placeholder={`Message #${currentRoom?.name} (be nice to future you)`}
                             rows={1}
                             className="flex-1 bg-transparent border-none focus:ring-0 py-3 px-1 resize-none max-h-48 min-h-[44px] text-sm font-medium custom-scrollbar"
                         />
@@ -142,7 +142,7 @@ const ChatRoom = () => {
                             </motion.button>
                         </div>
                     </div>
-                    <div className="flex justify-between items-center mt-3 px-2">
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-center mt-3 px-1 sm:px-2 gap-2">
                         <div className="flex items-center gap-3">
                             <div className="flex items-center gap-1.5 px-2 py-0.5 bg-gray-100 dark:bg-white/5 border dark:border-white/5 rounded text-[10px] font-bold text-gray-500">
                                 <span className="opacity-60">SHFT</span>
@@ -151,8 +151,8 @@ const ChatRoom = () => {
                                 <span className="ml-1 opacity-80 uppercase tracking-widest">New Line</span>
                             </div>
                         </div>
-                        <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em] font-bold flex items-center gap-1.5">
-                            Powered by Konverge AI <Command size={10} className="text-brand-accent animate-pulse" />
+                        <p className="text-[10px] text-gray-400 uppercase tracking-[0.16em] font-bold flex items-center gap-1.5">
+                            It works on my machine <Command size={10} className="text-brand-accent animate-pulse" />
                         </p>
                     </div>
                 </form>

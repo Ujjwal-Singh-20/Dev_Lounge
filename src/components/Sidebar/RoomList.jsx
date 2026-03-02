@@ -129,8 +129,8 @@ const RoomList = () => {
     const [showModal, setShowModal] = useState(false);
 
     return (
-        <div className="p-6 flex-1 flex flex-col overflow-hidden">
-            <div className="flex items-center justify-between mb-6 px-1">
+        <div className="p-4 sm:p-6 flex-1 flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between mb-4 sm:mb-6 px-1">
                 <h2 className="text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">Rooms</h2>
                 <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -145,7 +145,7 @@ const RoomList = () => {
 
             <nav className="space-y-1.5 overflow-y-auto custom-scrollbar flex-1">
                 {rooms.length === 0 && (
-                    <p className="text-xs text-gray-400 italic px-1">No rooms yet. Create one!</p>
+                    <p className="text-xs text-gray-400 italic px-1">No rooms yet. Create one before the merge conflict finds you.</p>
                 )}
                 {rooms.map((room, index) => (
                     <motion.button

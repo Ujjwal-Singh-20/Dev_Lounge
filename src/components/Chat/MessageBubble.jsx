@@ -19,7 +19,7 @@ const MessageBubble = ({ message, index }) => {
             }}
             className={`flex flex-col mb-8 ${isYou ? 'items-end' : 'items-start'}`}
         >
-            <div className={`flex items-center gap-3 mb-1.5 px-1 ${isYou ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-center gap-2 sm:gap-3 mb-1.5 px-1 ${isYou ? 'flex-row-reverse' : ''}`}>
                 <span className={`text-[11px] font-bold tracking-tight ${isYou ? 'text-brand-primary' : 'text-gray-500 animate-pulse'}`}>
                     {isYou ? 'You' : (message.senderName || message.user || 'Unknown')}
                 </span>
@@ -31,7 +31,7 @@ const MessageBubble = ({ message, index }) => {
             <motion.div
                 whileHover={{ scale: 1.002, y: -1 }}
                 className={`
-          max-w-[85%] rounded-[1.25rem] px-5 py-4 transition-all duration-300 relative group
+                max-w-[96%] sm:max-w-[85%] rounded-[1.25rem] px-4 sm:px-5 py-3 sm:py-4 transition-all duration-300 relative group
           ${isYou
                         ? 'bg-brand-primary text-white rounded-tr-none shadow-premium'
                         : 'bg-white dark:bg-[#1E1E28] dark:text-gray-100 rounded-tl-none border-t border-l dark:border-white/10 border-gray-100 shadow-sm hover:shadow-md'}
@@ -46,7 +46,7 @@ const MessageBubble = ({ message, index }) => {
                         initial={{ opacity: 0, filter: 'blur(10px)' }}
                         animate={{ opacity: 1, filter: 'blur(0px)' }}
                         transition={{ delay: 0.2 }}
-                        className="mt-4 rounded-xl overflow-hidden text-sm font-mono shadow-2xl border dark:border-white/10 border-gray-200"
+                        className="mt-4 rounded-xl overflow-x-auto text-sm font-mono shadow-2xl border dark:border-white/10 border-gray-200"
                     >
                         <div className="flex items-center justify-between px-4 py-2 bg-gray-100 dark:bg-white/5 border-b dark:border-white/10 border-gray-200">
                             <div className="flex gap-1.5">

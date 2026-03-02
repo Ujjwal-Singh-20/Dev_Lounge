@@ -14,9 +14,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const App = () => {
     const { theme, toggleTheme, currentUser, socketRef } = useChat();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isAiPanelOpen, setIsAiPanelOpen] = useState(true);
     const [activeTab, setActiveTab] = useState('chat'); // 'chat' or 'editor'
+    const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : true));
 
     useEffect(() => {
         if (!currentUser) return;
@@ -31,6 +32,20 @@ const App = () => {
         };
     }, [currentUser, socketRef]);
 
+    useEffect(() => {
+        const handleResize = () => {
+            const desktop = window.innerWidth >= 1024;
+            setIsDesktop(desktop);
+            if (desktop) {
+                setIsSidebarOpen(true);
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     if (!currentUser) {
         return <Login />;
     }
@@ -40,14 +55,14 @@ const App = () => {
     };
 
     return (
-        <div className={`h-screen flex flex-col ${theme === 'dark' ? 'dark bg-chat-bg text-gray-100' : 'bg-gray-50 text-gray-900'} font-sans transition-colors duration-500 overflow-hidden`}>
+        <div className={`h-screen min-h-[100dvh] flex flex-col ${theme === 'dark' ? 'dark bg-chat-bg text-gray-100' : 'bg-gray-50 text-gray-900'} font-sans transition-colors duration-500 overflow-hidden`}>
             {/* Header */}
-            <header className="h-14 border-b dark:border-white/5 border-gray-200 flex items-center justify-between px-6 flex-shrink-0 z-30 bg-white/70 dark:bg-chat-bg/70 backdrop-blur-xl">
-                <div className="flex items-center gap-4">
+            <header className="h-14 border-b dark:border-white/5 border-gray-200 flex items-center justify-between px-3 sm:px-6 flex-shrink-0 z-30 bg-white/70 dark:bg-chat-bg/70 backdrop-blur-xl">
+                <div className="flex items-center gap-2 sm:gap-4 min-w-0">
                     <motion.button
                         whileTap={{ scale: 0.9 }}
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg lg:hidden transition-colors"
+                        className="p-2 hover:bg-gray-200 dark:hover:bg-white/10 rounded-lg lg:hidden transition-colors flex-shrink-0"
                     >
                         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
                     </motion.button>
@@ -55,38 +70,38 @@ const App = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center gap-2 mr-4"
+                        className="flex items-center gap-2 mr-2 sm:mr-4 min-w-0"
                     >
-                        <div className="w-9 h-9 bg-brand-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-primary/20 ring-1 ring-white/20">
+                        <div className="w-8 h-8 sm:w-9 sm:h-9 bg-brand-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-primary/20 ring-1 ring-white/20 flex-shrink-0">
                             <Terminal size={20} weight="bold" />
                         </div>
-                        <div className="flex flex-col">
-                            <h1 className="font-bold text-base tracking-tight leading-none">Konverge</h1>
-                            <span className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">Dev Hub</span>
+                        <div className="flex flex-col min-w-0">
+                            <h1 className="font-bold text-sm sm:text-base tracking-tight leading-none truncate">Dev_Lounge</h1>
+                            <span className="hidden sm:block text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">Dev_Lounge</span>
                         </div>
                     </motion.div>
 
                     {/* Mode Switcher */}
-                    <nav className="hidden md:flex items-center p-1 bg-gray-100 dark:bg-white/5 rounded-xl border dark:border-white/5 border-gray-200">
+                    <nav className="flex items-center p-0.5 sm:p-1 bg-gray-100 dark:bg-white/5 rounded-xl border dark:border-white/5 border-gray-200">
                         <button
                             onClick={() => setActiveTab('chat')}
-                            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === 'chat'
+                            className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all ${activeTab === 'chat'
                                 ? 'bg-white dark:bg-white/10 shadow-sm text-brand-primary'
                                 : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
                                 }`}
                         >
                             <MessageSquare size={14} />
-                            <span>Chat Hub</span>
+                            <span className="hidden sm:inline">Chat Hub</span>
                         </button>
                         <button
                             onClick={() => setActiveTab('editor')}
-                            className={`flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-bold transition-all relative ${activeTab === 'editor'
+                            className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all relative ${activeTab === 'editor'
                                 ? 'bg-white dark:bg-white/10 shadow-sm text-brand-primary'
                                 : 'text-gray-500 hover:text-gray-900 dark:hover:text-white'
                                 }`}
                         >
                             <Code2 size={14} />
-                            <span>Live Code</span>
+                            <span className="hidden sm:inline">Live Code</span>
                             <span className="absolute -top-1 -right-1 flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
@@ -95,7 +110,7 @@ const App = () => {
                     </nav>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1 sm:gap-3">
                     <motion.button
                         whileHover={{ rotate: 15, backgroundColor: 'rgba(255,255,255,0.1)' }}
                         whileTap={{ scale: 0.95 }}
@@ -137,7 +152,7 @@ const App = () => {
                         <LogOut size={18} />
                     </motion.button>
 
-                    <div className="h-6 w-[1px] bg-gray-200 dark:bg-white/10 mx-1" />
+                    <div className="hidden sm:block h-6 w-[1px] bg-gray-200 dark:bg-white/10 mx-1" />
 
                     <motion.button
                         whileTap={{ scale: 0.95 }}
@@ -157,13 +172,13 @@ const App = () => {
             <main className="flex-1 flex overflow-hidden relative">
                 {/* Sidebar Left (Only shown in chat mode or if manually opened) */}
                 <AnimatePresence>
-                    {(isSidebarOpen || window.innerWidth >= 1024) && activeTab === 'chat' && (
+                    {(isSidebarOpen || isDesktop) && activeTab === 'chat' && (
                         <motion.aside
                             initial={{ x: -256 }}
                             animate={{ x: 0 }}
                             exit={{ x: -256 }}
                             transition={{ type: "spring", stiffness: 400, damping: 40 }}
-                            className="fixed lg:relative z-20 h-full w-64 border-r dark:border-white/5 border-gray-200 bg-white dark:bg-chat-sidebar transition-colors"
+                            className="fixed lg:relative z-20 h-full w-[86vw] max-w-64 border-r dark:border-white/5 border-gray-200 bg-white dark:bg-chat-sidebar transition-colors"
                         >
                             <div className="flex flex-col w-full h-full">
                                 <RoomList />
@@ -177,7 +192,7 @@ const App = () => {
 
                 {/* Overlay for mobile sidebar */}
                 <AnimatePresence>
-                    {isSidebarOpen && activeTab === 'chat' && (
+                    {isSidebarOpen && !isDesktop && activeTab === 'chat' && (
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -221,15 +236,26 @@ const App = () => {
                 {/* AI Assistant Right Panel */}
                 <AnimatePresence>
                     {isAiPanelOpen && (
+                        <>
                         <motion.aside
                             initial={{ x: 384 }}
                             animate={{ x: 0 }}
                             exit={{ x: 384 }}
                             transition={{ type: "spring", stiffness: 400, damping: 40 }}
-                            className="fixed lg:relative z-20 h-full w-80 sm:w-96 border-l dark:border-white/5 border-gray-200 bg-white dark:bg-chat-sidebar transition-colors right-0"
+                            className="fixed lg:relative z-20 h-full w-[88vw] max-w-sm sm:w-96 border-l dark:border-white/5 border-gray-200 bg-white dark:bg-chat-sidebar transition-colors right-0"
                         >
                             <AIAssistant onClose={() => setIsAiPanelOpen(false)} />
                         </motion.aside>
+                        {!isDesktop && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="fixed inset-0 bg-black/60 z-10 backdrop-blur-sm"
+                                onClick={() => setIsAiPanelOpen(false)}
+                            />
+                        )}
+                        </>
                     )}
                 </AnimatePresence>
             </main>
