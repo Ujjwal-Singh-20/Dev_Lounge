@@ -11,6 +11,7 @@ import AIAssistant from './components/AIPanel/AIAssistant';
 import CollaborativeEditor from './components/Editor/CollaborativeEditor';
 import { PanelRight, Menu, X, Moon, Sun, Terminal, MessageSquare, Code2, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Analytics } from '@vercel/analytics/react';
 
 const App = () => {
     const { theme, toggleTheme, currentUser, socketRef } = useChat();
@@ -259,6 +260,7 @@ const App = () => {
                     )}
                 </AnimatePresence>
             </main>
+            <Analytics />
         </div>
     );
 };

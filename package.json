@@ -15,6 +15,7 @@
     "@liveblocks/react": "^3.14.1",
     "@liveblocks/yjs": "^3.14.1",
     "@monaco-editor/react": "^4.7.0",
+    "@vercel/analytics": "^1.6.1",
     "clsx": "^2.1.1",
     "firebase": "^12.10.0",
     "framer-motion": "^11.11.9",
