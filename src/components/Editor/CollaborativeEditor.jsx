@@ -8,31 +8,19 @@ import {
     Code2, Plus, X, FileCode, Shield, ChevronDown,
     Save, RotateCcw, Trash2
 } from 'lucide-react';
+import { getLanguageFromFilename } from '../../utils/languageDetector';
 
 // ─── Add File Modal ────────────────────────────────────────────────────────────
 const AddFileModal = ({ onClose, onCreate }) => {
     const [filename, setFilename] = useState('');
-    const [language, setLanguage] = useState('javascript');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
-    const LANGUAGES = [
-        { id: 'javascript', label: 'JavaScript' },
-        { id: 'typescript', label: 'TypeScript' },
-        { id: 'python', label: 'Python' },
-        { id: 'html', label: 'HTML' },
-        { id: 'css', label: 'CSS' },
-        { id: 'json', label: 'JSON' },
-        { id: 'markdown', label: 'Markdown' },
-        { id: 'rust', label: 'Rust' },
-        { id: 'go', label: 'Go' },
-        { id: 'cpp', label: 'C++' },
-    ];
 
     const handleCreate = async () => {
         if (!filename.trim()) { setError('Filename is required'); return; }
         setLoading(true);
         try {
+            const language = getLanguageFromFilename(filename.trim());
             await onCreate(filename.trim(), language);
             onClose();
         } catch (err) {
@@ -88,27 +76,6 @@ const AddFileModal = ({ onClose, onCreate }) => {
                         />
                     </div>
 
-                    {/* Language */}
-                    <div>
-                        <label className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 block">
-                            Language
-                        </label>
-                        <div className="relative">
-                            <select
-                                value={language}
-                                onChange={e => setLanguage(e.target.value)}
-                                className="w-full px-4 py-2.5 rounded-xl border dark:border-white/10 border-gray-200
-                                           bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-sm font-medium appearance-none
-                                           focus:outline-none focus:ring-2 ring-brand-primary/30 transition-all cursor-pointer"
-                            >
-                                {LANGUAGES.map(l => (
-                                    <option key={l.id} value={l.id} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">{l.label}</option>
-                                ))}
-                            </select>
-                            <ChevronDown size={16} className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
-                        </div>
-                    </div>
-
                     {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
                 </div>
 
@@ -158,26 +125,7 @@ const CollaborativeEditor = ({ theme }) => {
 
             reader.onload = async (event) => {
                 const content = event.target.result;
-                const extension = file.name.split('.').pop().toLowerCase();
-
-                const extensionMap = {
-                    'js': 'javascript',
-                    'jsx': 'javascript',
-                    'ts': 'typescript',
-                    'tsx': 'typescript',
-                    'py': 'python',
-                    'html': 'html',
-                    'css': 'css',
-                    'json': 'json',
-                    'md': 'markdown',
-                    'rs': 'rust',
-                    'go': 'go',
-                    'cpp': 'cpp',
-                    'c': 'cpp',
-                    'txt': 'plaintext'
-                };
-
-                const language = extensionMap[extension] || 'plaintext';
+                const language = getLanguageFromFilename(file.name);
 
                 try {
                     await handleCreateFile(file.name, language, content);
