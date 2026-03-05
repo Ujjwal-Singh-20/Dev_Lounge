@@ -6,7 +6,7 @@ import { vscDarkPlus, prism } from 'react-syntax-highlighter/dist/esm/styles/pri
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AIAssistant = ({ onClose }) => {
-    const { askAi, aiResponses, isAiLoading, theme, saveToken, setAiSuggestedCode } = useChat();
+    const { askAi, aiResponses, isAiLoading, theme, saveToken, setAiSuggestedCode, activeFile } = useChat();
     const [query, setQuery] = useState('');
     const [tokenInput, setTokenInput] = useState('');
     const [isSavingToken, setIsSavingToken] = useState(false);
@@ -145,7 +145,7 @@ const AIAssistant = ({ onClose }) => {
                                             )}
                                         </div>
                                         <SyntaxHighlighter
-                                            language="javascript"
+                                            language={res.language || activeFile?.language || 'javascript'}
                                             style={theme === 'dark' ? vscDarkPlus : prism}
                                             customStyle={{
                                                 margin: 0,

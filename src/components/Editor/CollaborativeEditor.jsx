@@ -8,19 +8,53 @@ import {
     Code2, Plus, X, FileCode, Shield, ChevronDown,
     Save, RotateCcw, Trash2
 } from 'lucide-react';
-import { getLanguageFromFilename } from '../../utils/languageDetector';
+
+const EXTENSION_MAP = {
+    'js': 'javascript',
+    'jsx': 'javascript',
+    'ts': 'typescript',
+    'tsx': 'typescript',
+    'py': 'python',
+    'html': 'html',
+    'css': 'css',
+    'json': 'json',
+    'md': 'markdown',
+    'rs': 'rust',
+    'go': 'go',
+    'cpp': 'cpp',
+    'c': 'cpp',
+    'txt': 'plaintext',
+    'xml': 'xml',
+    'sql': 'sql',
+    'yaml': 'yaml',
+    'yml': 'yaml',
+};
+
+const getLanguageFromFilename = (filename) => {
+    if (!filename) return 'javascript';
+    const extension = filename.split('.').pop().toLowerCase();
+    return EXTENSION_MAP[extension] || 'plaintext';
+};
 
 // ─── Add File Modal ────────────────────────────────────────────────────────────
 const AddFileModal = ({ onClose, onCreate }) => {
     const [filename, setFilename] = useState('');
+    const [language, setLanguage] = useState('javascript');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const handleFilenameChange = (e) => {
+        const name = e.target.value;
+        setFilename(name);
+        setLanguage(getLanguageFromFilename(name));
+        setError('');
+    };
+
 
     const handleCreate = async () => {
         if (!filename.trim()) { setError('Filename is required'); return; }
         setLoading(true);
         try {
-            const language = getLanguageFromFilename(filename.trim());
             await onCreate(filename.trim(), language);
             onClose();
         } catch (err) {
@@ -67,13 +101,18 @@ const AddFileModal = ({ onClose, onCreate }) => {
                             autoFocus
                             type="text"
                             value={filename}
-                            onChange={e => { setFilename(e.target.value); setError(''); }}
+                            onChange={handleFilenameChange}
                             onKeyDown={e => e.key === 'Enter' && handleCreate()}
                             placeholder="e.g. utils.js"
                             className="w-full px-4 py-2.5 rounded-xl border dark:border-white/10 border-gray-200
                                        bg-gray-50 dark:bg-white/5 text-sm font-medium
                                        focus:outline-none focus:ring-2 ring-brand-primary/30 transition-all"
                         />
+                    </div>
+
+                    <div className="flex items-center gap-2 px-3 py-2 bg-brand-primary/5 rounded-xl border border-brand-primary/10">
+                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Detected Language:</span>
+                        <span className="text-[10px] font-bold text-brand-primary uppercase tracking-widest">{language}</span>
                     </div>
 
                     {error && <p className="text-xs text-red-500 font-medium">{error}</p>}

@@ -250,6 +250,7 @@ export const ChatProvider = ({ children }) => {
                 code: data.code,
                 diff: data.diff,
                 type: data.type,
+                language: data.language,
                 timestamp: new Date().toLocaleTimeString(),
             }, ...prev]);
         } catch (err) {
